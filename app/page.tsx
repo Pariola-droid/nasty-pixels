@@ -13,10 +13,15 @@ export default function Home() {
     const scaled = Math.round(parseFloat(inputValue) * scaleFactor);
     setScaledValue(scaled);
   };
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(scaledValue);
+  };
+
   return (
     <div className="grid place-items-center min-h-screen w-screen font-[family-name:var(--font-geist-sans)]">
       <div className="p-4 w-full max-w-[25rem] bg-white rounded-xl shadow-md min-h-[10rem]">
-        <h2 className="text-xl font-bold mb-4">Nasty Pixels</h2>
+        <h2 className="text-xl font-bold mb-4 text-[#060606]">Nasty Pixels</h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -26,7 +31,7 @@ export default function Home() {
               type="number"
               value={originalSize}
               onChange={(e) => setOriginalSize(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[3rem] px-3 text-[#060606]"
+              className="mt-1 block w-full rounded-md border border-[#06060630] h-[3rem] px-3 text-[#060606] focus:outline-[#060606]"
             />
           </div>
           <div>
@@ -37,7 +42,7 @@ export default function Home() {
               type="number"
               value={targetSize}
               onChange={(e) => setTargetSize(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[3rem] px-3 text-[#060606]"
+              className="mt-1 block w-full rounded-md border border-[#06060630] h-[3rem] px-3 text-[#060606] focus:outline-[#060606]"
             />
           </div>
           <div>
@@ -48,25 +53,25 @@ export default function Home() {
               type="number"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-[3rem] px-3 text-[#060606]"
+              className="mt-1 block w-full rounded-md border border-[#06060630] h-[3rem] px-3 text-[#060606] focus:outline-[#060606]"
             />
           </div>
           <button
             onClick={calculateScaledValue}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 h-[3.5rem] !mt-6"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#060606] hover:bg-[#06060650] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#060606] h-[3.5rem] !mt-6"
           >
             Calculate Scaled Value
           </button>
-          {scaledValue && (
-            <div className="mt-4">
-              <h3 className="text-lg font-medium text-gray-900">
-                Scaled Value:
-              </h3>
-              <p className="text-2xl font-bold text-indigo-600">
-                {scaledValue}px
-              </p>
-            </div>
-          )}
+
+          <div className="mt-4 flex items-center justify-between gap-x-2 w-full !mt-[1.5rem]">
+            <h3 className="text-sm font-medium text-gray-700">Scaled Value:</h3>
+            <p
+              className="text-2xl font-bold text-[#060606] cursor-pointer"
+              onClick={handleCopyToClipboard}
+            >
+              {scaledValue || 0}px
+            </p>
+          </div>
         </div>
       </div>
     </div>
