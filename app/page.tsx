@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [originalSize, setOriginalSize] = useState(1728);
-  const [targetSize, setTargetSize] = useState(1440);
+  const [originalSize, setOriginalSize] = useState<number>(1728);
+  const [targetSize, setTargetSize] = useState<number>(1440);
   const [inputValue, setInputValue] = useState('');
-  const [scaledValue, setScaledValue] = useState('');
+  const [scaledValue, setScaledValue] = useState<number>(0);
 
   const calculateScaledValue = () => {
     const scaleFactor = targetSize / originalSize;
@@ -15,7 +15,14 @@ export default function Home() {
   };
 
   const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(scaledValue);
+    navigator.clipboard.writeText(String(scaledValue));
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      calculateScaledValue();
+    }
   };
 
   return (
@@ -30,7 +37,7 @@ export default function Home() {
             <input
               type="number"
               value={originalSize}
-              onChange={(e) => setOriginalSize(e.target.value)}
+              onChange={(e) => setOriginalSize(Number(e.target.value))}
               className="mt-1 block w-full rounded-md border border-[#06060630] h-[3rem] px-3 text-[#060606] focus:outline-[#060606]"
             />
           </div>
@@ -41,7 +48,7 @@ export default function Home() {
             <input
               type="number"
               value={targetSize}
-              onChange={(e) => setTargetSize(e.target.value)}
+              onChange={(e) => setTargetSize(Number(e.target.value))}
               className="mt-1 block w-full rounded-md border border-[#06060630] h-[3rem] px-3 text-[#060606] focus:outline-[#060606]"
             />
           </div>
@@ -52,6 +59,7 @@ export default function Home() {
             <input
               type="number"
               value={inputValue}
+              onKeyPress={handleKeyPress}
               onChange={(e) => setInputValue(e.target.value)}
               className="mt-1 block w-full rounded-md border border-[#06060630] h-[3rem] px-3 text-[#060606] focus:outline-[#060606]"
             />
@@ -69,7 +77,7 @@ export default function Home() {
               className="text-2xl font-bold text-[#060606] cursor-pointer"
               onClick={handleCopyToClipboard}
             >
-              {scaledValue || 0}px
+              {scaledValue}px
             </p>
           </div>
         </div>
